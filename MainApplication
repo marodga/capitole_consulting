@@ -1,0 +1,79 @@
+package com.hotelbeds.packagebookingservice;
+
+import java.util.Arrays;
+import org.apache.commons.lang3.ArrayUtils;
+
+
+public class MainApplication {
+
+    private static final Integer DEFAULT = -1;
+
+    /*-
+     * A) ESTRUCTURAS DE DATOS UTILIZADAS EN EL ALGORITMO
+     *
+     *      He utilizado un algoritmo recursivo en lugar de uno iterativo por los siguientes motivos:
+     *          1) Legibilidad y estética del código.
+     *          2) El enunciado no especifica el tamaño del array, por lo que he asumido que se trabaja con arrays pequeños como los que aparecen en
+     *             los ejemplos, no obstante, para arrays de un tamaño mucho mayor es desaconsejable esta implementación dado que podríamos llenar la
+     *             pila de java y enfrentarnos a un stack overflow, en estos casos, una implementación iterativa sería más acertada.
+     *
+     *      En cuanto a las estructuras usadas, dado la sencillez del código, lo único mencionable es el uso de la librería de apache (ArrayUtils)
+     *      para obtener subarrays o el uso de los streams y lambdas que ofrece java 8 (nuevamente, por legibilidad del código).
+     *
+     * @param args
+     */
+    public static void main(final String args[]) {
+        //final Integer[] bestCase = {1, 2, 3, 4, 5};
+        //final Integer[] worstCase = {5, 4, 3, 2, 1};
+
+        final Integer[] numbers = {10, 5, 12, 9, 25};
+        sem(numbers);
+    }
+
+    /*-
+     * Para cada elemento del array, printa su SEM. Si no tiene SEM, se printa un valor por defecto.
+     *
+     * B) COMPLEJIDAD TEMPORAL DEL ALGORITMO:
+     *
+     * Mejor caso de:
+     *      El array está ordenado de menor a mayor. En este caso el SEM siempre es el siguiente elemento, es decir, para un array de tamaño N,
+     *      habría que realiza 1 busqueda para cada elemento del array, por lo que la complejidad es lineal: O(n)
+     *
+     * Peor caso:
+     *      El array está ordenado de mayor a menor. En este caso siempre para cada elemento siempre se recorren el array/subarray entero hasta
+     *      detectar que no existe un SEM. Como en el caso anterior, para un array de tamaño N habría que realizar N(N-1)/2 búsquedas en el array.
+     *      La complejidad para este caso sería cuadrática: O(2n)
+     *
+     * Posibles mejoras:
+     *      Dado que es un problema de búsqueda en un array no ordenado, nos enfrentamos a una búsqueda secuencial que nos obliga (en el peor de los
+     *      casos) a recorrer el array entero. Sin embargo, una vez se ha recorrido el array entero por primera vez, podríamos haber guardado el valor
+     *      del elemento más grande, de forma que para siguientes iteraciones, en lugar de buscar en el array el SEM (y arriesgarnos a que no exista
+     *      y toque recorrer de nuevo el array entero), podríamos validar previamente que el elemento actual es menor que el máximo elemento encontrado,
+     *      de no ser así, sabríamos de antemano antes de recorrer nuevamente el subarray que no hay elementos mayores a la derecha de la posición
+     *      actual. Para esta "mejora", deberíamos prescindir del uso de lambdas y utilizar el mecanismo clásico de for-if-break.
+     *
+     * @param numbers -> El array a analizar
+     */
+    private static void sem(final Integer[] numbers) {
+        // Input validation
+        if (numbers == null || numbers.length == 0) {
+            System.out.println("No se puede obtener el SEM de un array vacío/null.");
+            return;
+        }
+
+        // Current element
+        final Integer current = numbers[0];
+        if (numbers.length == 1) {
+            // Base case
+            System.out.println(current + " --> " + DEFAULT);
+        } else {
+            // Check SEM
+            final Integer[] subarrayOfNumbers = ArrayUtils.subarray(numbers, 1, numbers.length);
+            final Integer sem = Arrays.stream(subarrayOfNumbers).filter(n -> n > current).findFirst().orElse(DEFAULT);
+            System.out.println(current + " --> " + sem);
+
+            // Next iteration
+            sem(subarrayOfNumbers);
+        }
+    }
+}
