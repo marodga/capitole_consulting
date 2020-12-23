@@ -46,11 +46,8 @@ public class MainApplication {
      *
      * Posibles mejoras:
      *      Dado que es un problema de búsqueda en un array no ordenado, nos enfrentamos a una búsqueda secuencial que nos obliga (en el peor de los
-     *      casos) a recorrer el array entero. Sin embargo, una vez se ha recorrido el array entero por primera vez, podríamos haber guardado el valor
-     *      del elemento más grande, de forma que para siguientes iteraciones, en lugar de buscar en el array el SEM (y arriesgarnos a que no exista
-     *      y toque recorrer de nuevo el array entero), podríamos validar previamente que el elemento actual es menor que el máximo elemento encontrado,
-     *      de no ser así, sabríamos de antemano antes de recorrer nuevamente el subarray que no hay elementos mayores a la derecha de la posición
-     *      actual. Para esta "mejora", deberíamos prescindir del uso de lambdas y utilizar el mecanismo clásico de for-if-break.
+     *      casos) a recorrer el array entero, sin realizar búsquedas al respecto y contestando con mis conocimientos actuales, desconozco si existe 
+     *      algún algoritmo que mejore estos resultados.
      *
      * @param numbers -> El array a analizar
      */
