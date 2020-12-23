@@ -1,4 +1,4 @@
-package com.hotelbeds.packagebookingservice;
+package capitoleconsulting;
 
 import java.util.Arrays;
 import org.apache.commons.lang3.ArrayUtils;
